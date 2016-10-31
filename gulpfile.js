@@ -12,10 +12,13 @@ var gulp        = require('gulp'),
     cleanCSS    = require('gulp-clean-css'),
     clean       = require('gulp-clean');
 
-var scssFiles = './src/sass/**/*.scss';
+var scssFiles = './src/**/*.scss';
 var htmlFile = './src/index.html';
-var customFonts = './src/fonts/';
-var fontAwesomeFonts = './node_modules/font-awesome/fonts/**/*.*';
+var manualAddedFonts = './src/fonts/**/*.*';
+var fonts = [
+    './node_modules/font-awesome/fonts/**/*.*',
+    manualAddedFonts
+];
 // Add your external libs css here
 var libCssFiles = [
     './node_modules/normalize.css/*.css',
@@ -67,8 +70,8 @@ gulp.task('html', function () {
     .pipe(connect.reload());
 });
 
-gulp.task('font-awesome-fonts', function() {
-    gulp.src([fontAwesomeFonts, customFonts])
+gulp.task('fonts', function() {
+    gulp.src(fonts)
         .pipe(gulp.dest(finalFontFolder))
         .pipe(connect.reload());
 });
@@ -170,7 +173,7 @@ gulp.task('clean', function (){
 });
 
 gulp.task('default', function(callback) {
-    runSequence('clean', 'html', 'sass', 'react', 'libcss', 'libjs', 'font-awesome-fonts', 'watch', 'connect',
+    runSequence('clean', 'html', 'sass', 'react', 'libcss', 'libjs', 'fonts', 'watch', 'connect',
         callback
     );
 });
